@@ -3,8 +3,8 @@
 
 namespace SEARCH {
 
-    template<class Item, class Container,class Comper>
-    inline int binary_search(Container &container, int start, int end, Item item, Comper comper){
+    template<typename Item, typename Container,typename Comparator>
+    inline int binary_search(Container &container, int start, int end, Item item, Comparator comper){
         int tmp;
         while(start<end){
             tmp=(start+end)/2;
@@ -18,7 +18,7 @@ namespace SEARCH {
         return start;
     }
 
-    template<class Item, class Container,class Comper>
+    template<typename Item, typename Container >
     inline int lineary_search(Container &container, int start, int end, Item &item){
         for(int i = start;i<end;i++){
             if( item == container[i] ) return i;
@@ -26,8 +26,8 @@ namespace SEARCH {
         return end;
     }
 
-    template<class RandomIt, class T>
-    inline RandomIt lineary_search(RandomIt begin, RandomIt end, T &item) {
+    template<typename RandomIt, typename Item>
+    inline RandomIt lineary_search(RandomIt begin, RandomIt end, Item &item) {
         for(RandomIt *it = begin;it!=end;it++){
             if( item == *it ) return it;
         }

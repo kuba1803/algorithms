@@ -2,11 +2,11 @@
 #define ALGORITHMS_INSERTIONSORT_H
 
 #include <algorithm>
-#include "search.h"
+#include "../search/search.h"
 
 namespace  SORT{
-    template<class RandomIt, class Comperator>
-    inline void insertionSort(RandomIt begin, RandomIt end, Comperator comper) {
+    template<typename RandomIt, typename Comparator>
+    inline void insertionSort(RandomIt begin, RandomIt end, Comparator comper) {
         RandomIt item = begin;
         RandomIt help;
         item++;
@@ -23,8 +23,8 @@ namespace  SORT{
         }
     }
 
-    template<class Container, class Comperator>
-    inline void insertionSort(Container &container, int start, int end, Comperator comper) {
+    template<typename Container, typename Comparator>
+    inline void insertionSort(Container &container, int start, int end, Comparator comper) {
         int j, tmp;
         for (int i = start + 1; i < end; i++) {
             j = SEARCH::binary_search(container, start, i, container[i], comper);

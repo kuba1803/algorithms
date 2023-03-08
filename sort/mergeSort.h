@@ -2,8 +2,8 @@
 #define ALGORITHMS_MERGESORT_H
 #include <list>
 namespace SORT {
-    template<class RandomIt, class Comperator>
-    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comperator comper) {
+    template<typename RandomIt, typename Comparator>
+    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator comper) {
         std::list<typename std::iterator_traits<RandomIt>::value_type> L, R;
 
         for (RandomIt it = begin; it != split; it++) {
@@ -39,8 +39,8 @@ namespace SORT {
         }
     }
 
-    template<class RandomIt, class Comperator>
-    inline void mergeSort(RandomIt begin, RandomIt end, Comperator comper) {
+    template<typename RandomIt, typename Comparator>
+    inline void mergeSort(RandomIt begin, RandomIt end, Comparator comper) {
         int mergeDistance = 16;
         int overallDistance = 0;
         int distance = 0;
@@ -84,8 +84,8 @@ namespace SORT {
         } while (mergeDistance < overallDistance);
     }
 
-    template<class Container, class Comperator>
-    inline void mergeSort(Container &container, int start, int end, Comperator comper) {
+    template<typename Container, typename Comparator>
+    inline void mergeSort(Container &container, int start, int end, Comparator comper) {
         int mergeDistance = 16;
         int overallDistance = end - start;
         int left, right;

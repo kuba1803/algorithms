@@ -5,8 +5,8 @@
 
 namespace SORT {
 
-    template<class RandomIt, class Comperator>
-    inline void selectionSort(RandomIt begin, RandomIt end, Comperator comper) {
+    template<typename RandomIt, class Comparator>
+    inline void selectionSort(RandomIt begin, RandomIt end, Comparator comper) {
         RandomIt max = begin;
         RandomIt item, nextIt;
         nextIt = max;
@@ -33,8 +33,8 @@ namespace SORT {
 
     }
 
-    template<class Container, class Comperator>
-    inline void selectionSort(Container &container, int start, int end, Comperator comper) {
+    template<class Container, class Comparator>
+    inline void selectionSort(Container &container, int start, int end, Comparator comper) {
         int maxIn = end - 1;
         while (maxIn != start) {
             for (int in = start; in != maxIn; in++) {

@@ -16,8 +16,8 @@ namespace SORT {
         return (i << 1) + 1;
     }
 
-    template<class Container, class Comperator>
-    inline void heapify(Container &container, int start, int end, int i, Comperator comper) {
+    template<typename Container, typename Comparator >
+    inline void heapify(Container &container, int start, int end, int i, Comparator comper) {
         int l;
         int r;
         int top;
@@ -41,15 +41,15 @@ namespace SORT {
         }
     }
 
-    template<class Container, class Comperator>
-    inline void buildHeap(Container &container, int start, int end, Comperator comper) {
+    template<typename Container, typename Comparator >
+    inline void buildHeap(Container &container, int start, int end, Comparator comper) {
         for (int i = (end - start ) / 2; i >= 1; i--) {
             heapify(container, start, end, i + start, comper);
         }
     }
 
-    template<class Container, class Comperator>
-    inline void heapSort(Container &container, int start, int end, Comperator comper) {
+    template<typename Container, typename Comparator>
+    inline void heapSort(Container &container, int start, int end, Comparator comper) {
         buildHeap(container, start, end, comper);
         for (int i = end ; i >= 2 + start; i--) {
             std::swap(container[start], container[i-1]);
