@@ -9,23 +9,19 @@ namespace SORT {
     inline void bubbleSort(RandomIt begin, RandomIt end, Comparator comper) {
         bool change = true;
         RandomIt temp, inner_temp;
-        while (begin != end && change) {
+        while (change && begin != end ) {
             change = false;
-            temp = begin;
-            while (true) {
-                inner_temp = temp;
-                inner_temp++;
-                if (inner_temp == end) {
-                    end = temp;
-                    break;
-                }
-                if (!comper(*(temp), *(inner_temp))) {
-                    std::swap(*(inner_temp), *temp);
+            inner_temp = temp = begin;
+            inner_temp++;
+            while (inner_temp != end){
+                if (!comper(*temp, *inner_temp)) {
+                    std::swap(*inner_temp, *temp);
                     change = true;
                 }
-                temp = inner_temp;
-
+                temp++;
+                inner_temp++;
             }
+            end = temp;
         }
     }
 

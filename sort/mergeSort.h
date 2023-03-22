@@ -1,6 +1,7 @@
 #ifndef ALGORITHMS_MERGESORT_H
 #define ALGORITHMS_MERGESORT_H
 #include <list>
+#include "insertionSort.h"
 namespace SORT {
     template<typename RandomIt, typename Comparator>
     inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator comper) {
@@ -54,7 +55,7 @@ namespace SORT {
                 overallDistance++;
                 rightIt++;
             }
-            insertion_sort(leftIt, rightIt, comper);
+            insertionSort(leftIt, rightIt, comper);
             distance = 0;
             leftIt = rightIt;
         }
@@ -96,7 +97,7 @@ namespace SORT {
             if (right > end) {
                 right = end;
             }
-            insertion_sort(container + left, container + right, comper);
+            insertionSort(container + left, container + right, comper);
             left = right;
         }
         do {
