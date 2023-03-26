@@ -46,11 +46,11 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void quickSort(Container &container, int start, int end, Comparator comper) {
+    inline void quickSort(Container &container, int start, int size, Comparator comper) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int i;
-        stack.push(std::tuple<int, int>(start, end));
+        stack.push(std::tuple<int, int>(start, size));
         while (!stack.empty()) {
             range = std::move(stack.top());
             stack.pop();

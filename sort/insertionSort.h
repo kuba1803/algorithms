@@ -24,9 +24,9 @@ namespace  SORT{
     }
 
     template<typename Container, typename Comparator>
-    inline void insertionSort(Container &container, int start, int end, Comparator comper) {
+    inline void insertionSort(Container &container, int start, int size, Comparator comper) {
         int j, tmp;
-        for (int i = start + 1; i < end; i++) {
+        for (int i = start + 1; i < size; i++) {
             j = SEARCH::binary_search(container, start, i, container[i], comper);
             tmp = i;
             while (tmp > j) {

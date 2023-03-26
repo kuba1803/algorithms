@@ -49,12 +49,12 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void heapSort(Container &container, int start, int end, Comparator comper) {
-        buildHeap(container, start, end, comper);
-        for (int i = end ; i >= 2 + start; i--) {
+    inline void heapSort(Container &container, int start, int size, Comparator comper) {
+        buildHeap(container, start, size, comper);
+        for (int i = size ; i >= 2 + start; i--) {
             std::swap(container[start], container[i-1]);
-            end--;
-            heapify(container, start, end, start+1, comper);
+            size--;
+            heapify(container, start, size, start + 1, comper);
         }
     }
 }

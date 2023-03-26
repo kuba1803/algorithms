@@ -86,16 +86,16 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void mergeSort(Container &container, int start, int end, Comparator comper) {
+    inline void mergeSort(Container &container, int start, int size, Comparator comper) {
         int mergeDistance = 16;
-        int overallDistance = end - start;
+        int overallDistance = size - start;
         int left, right;
         right = 0;
         left = 0;
-        while (right != end) {
+        while (right != size) {
             right += mergeDistance;
-            if (right > end) {
-                right = end;
+            if (right > size) {
+                right = size;
             }
             insertionSort(container + left, container + right, comper);
             left = right;
@@ -105,17 +105,17 @@ namespace SORT {
             left = 0;
             do {
                 right += mergeDistance;
-                if (right >= end) {
-                    right = end;
+                if (right >= size) {
+                    right = size;
                     continue;
                 }
                 right += mergeDistance;
-                if (right >= end) {
-                    right = end;
+                if (right >= size) {
+                    right = size;
                 }
                 merge(container + left, container + left + mergeDistance, container + right, comper);
                 left = right;
-            } while (right != end);
+            } while (right != size);
             mergeDistance *= 2;
         } while (mergeDistance < overallDistance);
     }

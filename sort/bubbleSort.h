@@ -26,12 +26,12 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void bubbleSort(Container &container, int start, int end, Comparator comper) {
+    inline void bubbleSort(Container &container, int start, int size, Comparator comper) {
         int temp;
         bool change = true;
-        while (change && start < end--) {
+        while (change && start < size--) {
             change = false;
-            for (temp = start; temp < end; temp++) {
+            for (temp = start; temp < size; temp++) {
                 if (!comper(container[temp], container[temp + 1])) {
                     std::swap(container[temp], container[temp + 1]);
                     change = true;

@@ -34,8 +34,8 @@ namespace SORT {
     }
 
     template<class Container, class Comparator>
-    inline void selectionSort(Container &container, int start, int end, Comparator comper) {
-        int maxIn = end - 1;
+    inline void selectionSort(Container &container, int start, int size, Comparator comper) {
+        int maxIn = size - 1;
         while (maxIn != start) {
             for (int in = start; in != maxIn; in++) {
                 if (!comper(container[in], container[maxIn])) {
