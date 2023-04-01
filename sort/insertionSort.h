@@ -6,13 +6,13 @@
 
 namespace  SORT{
     template<typename RandomIt, typename Comparator>
-    inline void insertionSort(RandomIt begin, RandomIt end, Comparator comper) {
+    inline void insertionSort(RandomIt begin, RandomIt end, Comparator compere) {
         RandomIt item = begin;
         RandomIt help;
         item++;
         while (item != end) {
             help = begin;
-            while (help != item && comper(*help, *item)) {
+            while (help != item && compere(*help, *item)) {
                 help++;
             }
             while (help != item) {
@@ -24,10 +24,10 @@ namespace  SORT{
     }
 
     template<typename Container, typename Comparator>
-    inline void insertionSort(Container &container, int start, int size, Comparator comper) {
+    inline void insertionSort(Container &container, int start, int size, Comparator compere) {
         int j, tmp;
         for (int i = start + 1; i < size; i++) {
-            j = SEARCH::binary_search(container, start, i, container[i], comper);
+            j = SEARCH::binarySearch(container, start, i, container[i], compere);
             tmp = i;
             while (tmp > j) {
                 std::swap(container[tmp], container[tmp - 1]);

@@ -29,7 +29,7 @@ namespace UTILS {
     }
 
     template<typename Container, typename Comparator>
-    inline auto randomizedSelect(Container &container, int start, int end, int n, Comparator comper) {
+    inline auto randomizedSelect(Container &container, int start, int end, int ith, Comparator comper) {
         if (start == end) return container[start];
         int q;
         do {
@@ -42,18 +42,18 @@ namespace UTILS {
                 }
             }
             std::swap(container[q], container[end]);
-            if (n < q) end = q - 1;
-            else if (n > q) {
+            if (ith < q) end = q - 1;
+            else if (ith > q) {
                 start = q + 1;
             }
-        } while (n != q && start != end);
+        } while (ith != q && start != end);
         if (start == end) return container[start];
         return container[q];
     }
 
 
     template<typename Container, typename Comparator>
-    inline auto select(Container &container, int start, int end, int n, Comparator comper) {
+    inline auto select(Container &container, int start, int end, int ith, Comparator comper) {
         int q, k;
         do {
             while (end - start < 5 || ((end - start + 1) % 5) != 0) {
@@ -62,9 +62,9 @@ namespace UTILS {
                         std::swap(container[start], container[j]);
                     }
                 }
-                if (n == 0)return container[start];
+                if (ith == 0)return container[start];
                 start++;
-                n--;
+                ith--;
             }
             int amountGroup = (end - start + 1) / 5;
 
@@ -90,11 +90,11 @@ namespace UTILS {
             }
             std::swap(container[q], container[end]);
             k = q - start + 1;
-            if (n == k)return container[q];
-            if (n < k) end = q - 1;
-            else if (n > k) {
+            if (ith == k)return container[q];
+            if (ith < k) end = q - 1;
+            else if (ith > k) {
                 start = q + 1;
-                n -= k;
+                ith -= k;
             }
         } while (true);
     }

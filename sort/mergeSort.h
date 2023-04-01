@@ -4,7 +4,7 @@
 #include "insertionSort.h"
 namespace SORT {
     template<typename RandomIt, typename Comparator>
-    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator comper) {
+    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator compere) {
         std::list<typename std::iterator_traits<RandomIt>::value_type> L, R;
 
         for (RandomIt it = begin; it != split; it++) {
@@ -18,7 +18,7 @@ namespace SORT {
         RandomIt it = begin;
 
         while (lIt != L.end() && rIt != R.end()) {
-            if (comper(*lIt, *rIt)) {
+            if (compere(*lIt, *rIt)) {
                 *it = std::move(*lIt);
                 it++;
                 lIt++;
@@ -41,7 +41,7 @@ namespace SORT {
     }
 
     template<typename RandomIt, typename Comparator>
-    inline void mergeSort(RandomIt begin, RandomIt end, Comparator comper) {
+    inline void mergeSort(RandomIt begin, RandomIt end, Comparator compere) {
         int mergeDistance = 16;
         int overallDistance = 0;
         int distance = 0;
@@ -55,7 +55,7 @@ namespace SORT {
                 overallDistance++;
                 rightIt++;
             }
-            insertionSort(leftIt, rightIt, comper);
+            insertionSort(leftIt, rightIt, compere);
             distance = 0;
             leftIt = rightIt;
         }
@@ -78,7 +78,7 @@ namespace SORT {
                     distance++;
                     rightIt++;
                 }
-                merge(leftIt, it, rightIt, comper);
+                merge(leftIt, it, rightIt, compere);
                 leftIt = rightIt;
                 distance = 0;
             } while (rightIt != end);
@@ -86,7 +86,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void mergeSort(Container &container, int start, int size, Comparator comper) {
+    inline void mergeSort(Container &container, int start, int size, Comparator compere) {
         int mergeDistance = 16;
         int overallDistance = size - start;
         int left, right;
@@ -97,7 +97,7 @@ namespace SORT {
             if (right > size) {
                 right = size;
             }
-            insertionSort(container + left, container + right, comper);
+            insertionSort(container + left, container + right, compere);
             left = right;
         }
         do {
@@ -113,7 +113,7 @@ namespace SORT {
                 if (right >= size) {
                     right = size;
                 }
-                merge(container + left, container + left + mergeDistance, container + right, comper);
+                merge(container + left, container + left + mergeDistance, container + right, compere);
                 left = right;
             } while (right != size);
             mergeDistance *= 2;

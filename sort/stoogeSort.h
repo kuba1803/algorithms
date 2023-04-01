@@ -13,7 +13,7 @@
 namespace SORT {
 
     template<typename Container, typename Comparator>
-    inline void stoogeSort(Container &container, int start, int size, Comparator comper) {
+    inline void stoogeSort(Container &container, int start, int size, Comparator compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int k;
@@ -21,7 +21,7 @@ namespace SORT {
         while (!stack.empty()) {
             range = std::move(stack.top());
             stack.pop();
-            if (!comper(container[std::get<0>(range)], container[std::get<1>(range) - 1])) {
+            if (!compere(container[std::get<0>(range)], container[std::get<1>(range) - 1])) {
                 std::swap(container[std::get<0>(range)], container[std::get<1>(range) - 1]);
             }
             if ((std::get<0>(range) + 1) >= (std::get<1>(range) - 1))continue;

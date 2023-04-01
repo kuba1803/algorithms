@@ -1,7 +1,3 @@
-//
-// Created by Jakub on 25.03.2023.
-//
-
 #ifndef ALGORITHMS_RADIXSORT_H
 #define ALGORITHMS_RADIXSORT_H
 #include <algorithm>
@@ -18,7 +14,7 @@ namespace SORT {
         for(const auto &item: container){
             lenghtLongest = (lenghtLongest < item.lenght())? item.lenght():lenghtLongest;
         }
-        for(int idxChar = lenghtLongest;idxChar>=0;idxChar--){
+        for(int64_t idxChar = lenghtLongest;idxChar>=0;idxChar--){
             typename std::remove_reference<decltype(container[0])>::type temporalTable[maxValue];
             int countTable[size - start];
             for(int i=0; i < size - start; i++) countTable[i]=0;

@@ -1,7 +1,3 @@
-//
-// Created by Jakub on 20.03.2023.
-//
-
 #ifndef ALGORITHMS_QUICKSORT_H
 #define ALGORITHMS_QUICKSORT_H
 
@@ -12,7 +8,7 @@
 namespace SORT {
 
     template<typename RandomIt, typename Comparator>
-    inline void quickSort(RandomIt begin, RandomIt end, Comparator comper) {
+    inline void quickSort(RandomIt begin, RandomIt end, Comparator compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<RandomIt, RandomIt> range;
         RandomIt i, tempEnd, temp;
@@ -27,7 +23,7 @@ namespace SORT {
             }
             i = std::get<0>(range);
             for (RandomIt j = std::get<0>(range); j != tempEnd; j++) {
-                if (comper(*j, *tempEnd)) {
+                if (compere(*j, *tempEnd)) {
                     std::swap(i, j);
                     i++;
                 }
@@ -46,7 +42,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void quickSort(Container &container, int start, int size, Comparator comper) {
+    inline void quickSort(Container &container, int start, int size, Comparator compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int i;
@@ -56,7 +52,7 @@ namespace SORT {
             stack.pop();
             i = std::get<0>(range);
             for (int j = std::get<0>(range); j < std::get<1>(range) - 1; j++) {
-                if (comper(container[j], container[std::get<1>(range) - 1])) {
+                if (compere(container[j], container[std::get<1>(range) - 1])) {
                     std::swap(container[i], container[j]);
                     i++;
                 }

@@ -1,7 +1,3 @@
-//
-// Created by Jakub on 23.03.2023.
-//
-
 #ifndef ALGORITHMS_COUNTSORT_H
 #define ALGORITHMS_COUNTSORT_H
 #include <algorithm>

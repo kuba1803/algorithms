@@ -6,7 +6,7 @@
 namespace SORT {
 
     template<typename RandomIt, class Comparator>
-    inline void selectionSort(RandomIt begin, RandomIt end, Comparator comper) {
+    inline void selectionSort(RandomIt begin, RandomIt end, Comparator compere) {
         RandomIt max = begin;
         RandomIt item, nextIt;
         nextIt = max;
@@ -21,7 +21,7 @@ namespace SORT {
             nextIt = begin;
             nextIt++;
             while (nextIt != max) {
-                if (!comper(*item, *max)) {
+                if (!compere(*item, *max)) {
                     std::swap(*item, *max);
                 }
                 item++;
@@ -34,11 +34,11 @@ namespace SORT {
     }
 
     template<class Container, class Comparator>
-    inline void selectionSort(Container &container, int start, int size, Comparator comper) {
+    inline void selectionSort(Container &container, int start, int size, Comparator compere) {
         int maxIn = size - 1;
         while (maxIn != start) {
             for (int in = start; in != maxIn; in++) {
-                if (!comper(container[in], container[maxIn])) {
+                if (!compere(container[in], container[maxIn])) {
                     std::swap(container[in], container[maxIn]);
                 }
             }
