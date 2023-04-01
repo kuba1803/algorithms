@@ -1,14 +1,15 @@
-#ifndef ALGORITHMS_VECTOR_H
-#define ALGORITHMS_VECTOR_H
+#ifndef ALGORITHMS_ARRAY_H
+#define ALGORITHMS_ARRAY_H
 
 #include <algorithm>
 #include <stdexcept>
 #include <utility>
 #include <iterator>
+#include <vector>
 
 namespace CONTAINER {
     template<typename T>
-    class Vector {
+    class Array {
     private:
         T *array;
         size_t arraySize;
@@ -18,12 +19,12 @@ namespace CONTAINER {
 
 #pragma region types
         typedef T					                          value_type;
-        typedef Vector*			                              pointer;
-        typedef const Vector*                                 const_pointer;
-        typedef Vector&		                                  reference;
-        typedef const Vector&   	                          const_reference;
-        typedef __gnu_cxx::__normal_iterator<pointer, Vector> iterator;
-        typedef __gnu_cxx::__normal_iterator<const_pointer, Vector>
+        typedef T*	     		                              pointer;
+        typedef const T*                                      const_pointer;
+        typedef T&  		                                  reference;
+        typedef const T&   	                                  const_reference;
+        typedef __gnu_cxx::__normal_iterator<pointer, Array>      iterator;
+        typedef __gnu_cxx::__normal_iterator<const_pointer, Array>
                 const_iterator;
         typedef std::reverse_iterator<const_iterator>	      const_reverse_iterator;
         typedef std::reverse_iterator<iterator>		          reverse_iterator;
@@ -31,27 +32,28 @@ namespace CONTAINER {
         typedef ptrdiff_t				                      difference_type;
 
 #pragma endregion types
+
 #pragma region constructors
 
-        explicit Vector() : arraySize(0), arrayCapacity(1) {
+        explicit Array() : arraySize(0), arrayCapacity(1) {
             array = new T[arrayCapacity];
         }
 
 
-        explicit Vector(size_type size) : arraySize(0), arrayCapacity(size) {
+        explicit Array(size_type size) : arraySize(0), arrayCapacity(size) {
             array = new T[arrayCapacity];
         }
 
-        Vector(size_type size, const T &value) : arraySize(0), arrayCapacity(size) {
+        Array(size_type size, const T &value) : arraySize(0), arrayCapacity(size) {
             array = new T[arrayCapacity];
             for (; arraySize < arrayCapacity; arraySize++) {
                 array[arraySize] = value;
             }
         }
 
-        template<class InputIt>
-        Vector(InputIt first,
-               InputIt last):arraySize(0), arrayCapacity(0){
+        template<class InputIt,typename = std::_RequireInputIter<InputIt>>
+        Array(InputIt first,
+              InputIt last):arraySize(0), arrayCapacity(0){
             arrayCapacity = std::distance(first, last);
             array = new T[arrayCapacity];
             for (InputIt it = first; it != last; it++) {
@@ -60,7 +62,7 @@ namespace CONTAINER {
         }
 
 
-        Vector(std::initializer_list<T> init) : arraySize(0), arrayCapacity(init.size()) {
+        Array(std::initializer_list<T> init) : arraySize(0), arrayCapacity(init.size()) {
             array = new T[arrayCapacity];
             arraySize = 0;
             for (T &in: init) {
@@ -68,22 +70,22 @@ namespace CONTAINER {
             }
         }
 
-        Vector(const Vector &other) : arrayCapacity(other.arrayCapacity), arraySize(other.arraySize) {
+        Array(const Array &other) : arrayCapacity(other.arrayCapacity), arraySize(other.arraySize) {
             array = new T[arrayCapacity];
             for (size_type i = 0; i < arrayCapacity; i++) {
                 array[i] = other.array[i];
             }
         }
 
-        Vector(Vector &&other) noexcept: arrayCapacity(other.arrayCapacity), arraySize(other.arraySize),
-                                         array(std::move(other.array)) {
+        Array(Array &&other) noexcept: arrayCapacity(other.arrayCapacity), arraySize(other.arraySize),
+                                       array(std::move(other.array)) {
         }
 
 #pragma endregion constructor
 
 #pragma region destructor
 
-        ~Vector() {
+        ~Array() {
             delete[] array;
         }
 
@@ -91,7 +93,7 @@ namespace CONTAINER {
 
 #pragma region operator=
 
-        Vector &operator=(const Vector &Array) {
+        Array &operator=(const Array &Array) {
             if (this != &Array) {
                 delete[] array;
                 arraySize = Array.arraySize;
@@ -104,7 +106,7 @@ namespace CONTAINER {
             return *this;
         }
 
-        Vector &operator=(Vector &&Array) noexcept {
+        Array &operator=(Array &&Array) noexcept {
             delete[] array;
             arraySize = Array.arraySize;
             arrayCapacity = Array.arrayCapacity;
@@ -195,7 +197,7 @@ namespace CONTAINER {
         }
 
         const_reference back() const {
-            return array[arraySize - 1];
+            return array[arraySize -1];
         }
 
         T *data() noexcept {
@@ -210,12 +212,12 @@ namespace CONTAINER {
 
 #pragma region iterators
 
-        iterator *begin() {
-            return array;
+        iterator begin() {
+            return iterator(array);
         }
 
-        iterator *end() {
-            return array + arraySize;
+        iterator end() {
+            return iterator(array + arraySize);
         }
 
         reverse_iterator rbegin() {
@@ -273,7 +275,7 @@ namespace CONTAINER {
             arrayCapacity = size;
         }
 
-        void swap(Vector<T> &item) {
+        void swap(Array<T> &item) {
             std::swap(array, item.array);
             std::swap(arraySize, item.arraySize);
             std::swap(arrayCapacity, item.arrayCapacity);
@@ -284,32 +286,34 @@ namespace CONTAINER {
             arraySize = 0;
         }
 
-        iterator *insert(T *pos, const T value) {
+        iterator insert(const_iterator pos, const T value) {
             if (arraySize == arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize; it != pos - 1; it--) {
-                *(it + 1) = std::move(*(it));
+            auto it = end();
+            for (; it != pos; it--) {
+                *(it+1) = std::move(*(it));
             }
-            *pos = std::move(value);
+            *(++it) = std::move(value);
             arraySize++;
-            return pos;
+            return it;
         }
 
-        iterator *insert(T *pos, size_type count, const T &value) {
+        iterator insert(const_iterator pos, size_type count, const T &value) {
             if (arraySize + count < arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize; it != pos - 1; it--) {
+            auto it = end();
+            for (; it != pos; it--) {
                 *(it + count) = std::move(*(it));
             }
             for (size_type i = 0; i < count; i++)*(pos++) = value;
             arraySize += count;
-            return pos;
+            return --it;
         }
 
         template<class InputIt>
-        iterator *insert(T *pos, InputIt first, InputIt last) {
+        iterator insert(const_iterator pos, InputIt first, InputIt last) {
             size_type count = std::distance(first, last);
             T *temp = pos;
             if (arraySize + count < arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize; it != pos - 1; it--) {
+            for (auto it = end(); it != pos - 1; it--) {
                 *(it + count) = std::move(*(it));
             }
             for (InputIt *it = first; it != last; it++)*(pos++) = *it;
@@ -317,10 +321,10 @@ namespace CONTAINER {
             return temp;
         }
 
-        iterator *insert(T *pos, std::initializer_list<T> init) {
+        iterator insert(const_iterator pos, std::initializer_list<T> init) {
             T *temp = pos;
             if (arraySize + init.size() < arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize; it != pos - 1; it--) {
+            for (auto *it = end() ; it != pos - 1; it--) {
                 *(it + init.size()) = std::move(*(it));
             }
             for (auto &item: init)*(pos++) = std::move(item);
@@ -329,12 +333,12 @@ namespace CONTAINER {
         }
 
         template<class Range>
-        iterator *insert(T *pos, const Range &range) {
+        iterator insert(const_iterator pos, const Range &range) {
             size_type count = 0;
             T *temp = pos;
             for (T *item: range)count++;
             if (arraySize + count < arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize - 1; it != pos - 1; it--) {
+            for (T *it = end() - 1; it != pos - 1; it--) {
                 *(it + count) = std::move(*(it));
             }
             for (T item: range)*(pos++) = std::move(item);
@@ -343,29 +347,30 @@ namespace CONTAINER {
         }
 
         template<class... Args>
-        iterator *emplace(T *pos, Args &&... args) {
+        iterator emplace(const_iterator pos, Args &&... args) {
             if (arraySize == arrayCapacity)resize(arrayCapacity << 1);
-            for (T *it = array + arraySize; it != pos - 1; it--) {
+            auto it = end();
+            for (; it != pos; it--) {
                 *(it + 1) = std::move(*(it));
             }
-            *pos = std::move(T(std::forward<Args>(args)...));
+            *(++it) = std::move(T(std::forward<Args>(args)...));
             arraySize++;
-            return pos;
+            return iterator(it);
         }
 
-        iterator *erase(T *pos) {
+        iterator erase(const_iterator pos) {
             for (T *it = pos; it != end() - 1; it++) {
                 *(it) = std::move(*(it + 1));
             }
             arraySize--;
             if (arraySize < (arrayCapacity >> 1))resize(arrayCapacity >> 1);
-            return pos;
+            return iterator(pos);
         }
 
         template<class InputIt>
-        iterator *erase(InputIt first, InputIt last) {
+        iterator erase(InputIt first, InputIt last) {
             size_type count = std::distance(first, last);
-            for (T *it = first; it != end() - count + 1; it++) {
+            for (auto it = first; it != last; it++) {
                 *(it) = std::move(*(it + count));
             }
             arraySize -= count;
@@ -374,16 +379,15 @@ namespace CONTAINER {
         }
 
         template<class... Args>
-        iterator *emplace_back(Args &&... args) {
+        iterator emplace_back(Args &&... args) {
             if (arraySize == arrayCapacity)resize(arrayCapacity << 1);
             array[arraySize] = std::move(T(std::forward<Args>(args)...));
             return array[arraySize++];
         }
 
-        void push_back(T &item) {
+        void push_back(T item) {
             if (arraySize == arrayCapacity)resize(arrayCapacity << 1);
             array[arraySize++] = std::move(item);
-            arraySize++;
         }
 
         template<class Range>
@@ -394,30 +398,38 @@ namespace CONTAINER {
             for (T item: range)array[arraySize++] = std::move(item);
         }
 
+        void pop_back(){
+            arraySize--;
+            if (arraySize < (arrayCapacity >> 1) )resize(arrayCapacity >> 1);
+        }
+
 #pragma endregion modificators
     };
 
-    template<class InputIt>
-    Vector(InputIt first,
-           InputIt last) -> Vector<typename std::iterator_traits<InputIt>::value_type>;
+    template<typename InputIt,
+            typename ValT = typename std::iterator_traits<InputIt>::value_type,
+            typename = std::_RequireInputIter<InputIt>>
+    Array(InputIt first,
+          InputIt last) -> Array<ValT>;
+
 
     template<typename T>
-    inline bool operator==(const Vector<T> &rhs, const Vector<T> &lhs) {
+    inline bool operator==(const Array<T> &rhs, const Array<T> &lhs) {
         if (rhs.size() != lhs.size()) return false;
-        for (typename Vector<T>::size_type i = 0; i < rhs.size(); i++) {
+        for (typename Array<T>::size_type i = 0; i < rhs.size(); i++) {
             if (rhs[i] != lhs[i]) return false;
         }
         return true;
     }
 
     template<typename T>
-    inline auto operator<=>(const Vector<T> &rhs, const Vector<T> &lhs) {
+    inline auto operator<=>(const Array<T> &rhs, const Array<T> &lhs) {
         return std::lexicographical_compare_three_way(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
     }
 
     template<typename T, typename U>
-    inline typename Vector<T>::size_type erase(Vector<T> &vector, const U &value) {
-        typename Vector<T>::size_type count = 0;
+    inline typename Array<T>::size_type erase(Array<T> &vector, const U &value) {
+        typename Array<T>::size_type count = 0;
         for (auto it = vector.begin(); it != vector.end();) {
             if (*it == value) {
                 vector.erase(it);
@@ -429,8 +441,8 @@ namespace CONTAINER {
 
 
     template<typename T, typename Pred>
-    inline typename Vector<T>::size_type erase(Vector<T> &vector, Pred pred) {
-        typename Vector<T>::size_type count = 0;
+    inline typename Array<T>::size_type erase(Array<T> &vector, Pred pred) {
+        typename Array<T>::size_type count = 0;
         for (auto it = vector.begin(); it != vector.end();) {
             if (pred(*it)) {
                 vector.erase(it);
@@ -440,13 +452,13 @@ namespace CONTAINER {
         return count;
     }
 
-
 }
+
 namespace std {
     template<typename T>
-    inline void swap(CONTAINER::Vector <T> &v1, CONTAINER::Vector <T> &v2) {
+    inline void swap(CONTAINER::Array <T> &v1, CONTAINER::Array <T> &v2) {
         v1.swap(v2);
     }
 }
 
-#endif //ALGORITHMS_VECTOR_H
+#endif //ALGORITHMS_ARRAY_H

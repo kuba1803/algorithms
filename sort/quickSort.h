@@ -9,7 +9,7 @@ namespace SORT {
 
     template<typename RandomIt, typename Comparator>
     inline void quickSort(RandomIt begin, RandomIt end, Comparator compere) {
-        std::stack<std::tuple<int, int>> stack;
+        std::stack<std::tuple<RandomIt, RandomIt>> stack;
         std::tuple<RandomIt, RandomIt> range;
         RandomIt i, tempEnd, temp;
         stack.push(std::tuple<RandomIt, RandomIt>(begin, end));
@@ -24,19 +24,19 @@ namespace SORT {
             i = std::get<0>(range);
             for (RandomIt j = std::get<0>(range); j != tempEnd; j++) {
                 if (compere(*j, *tempEnd)) {
-                    std::swap(i, j);
+                    std::swap(*i, *j);
                     i++;
                 }
             }
-            std::swap(i, tempEnd);
+            std::swap(*i, *tempEnd);
             tempEnd = temp = std::get<0>(range);
             while (temp != i) {
                 tempEnd = temp;
                 temp++;
             }
-            if (std::get<0>(range) != tempEnd)stack.push(std::tuple<int, int>(std::get<0>(range), i - 1));
+            if (std::get<0>(range) != tempEnd)stack.push(std::tuple<RandomIt, RandomIt>(std::get<0>(range), i ));
             i++;
-            if (i != std::get<1>(range)) stack.push(std::tuple<int, int>(i, std::get<1>(range)));
+            if (i != std::get<1>(range)) stack.push(std::tuple<RandomIt, RandomIt>(tempEnd, std::get<1>(range)));
 
         }
     }
@@ -58,7 +58,7 @@ namespace SORT {
                 }
             }
             std::swap(container[i], container[std::get<1>(range) - 1]);
-            if (std::get<0>(range) < i - 1)stack.push(std::tuple<int, int>(std::get<0>(range), i - 1));
+            if (std::get<0>(range) < i - 1)stack.push(std::tuple<int, int>(std::get<0>(range), i ));
             if (i + 1 < std::get<1>(range)) stack.push(std::tuple<int, int>(i + 1, std::get<1>(range)));
 
         }

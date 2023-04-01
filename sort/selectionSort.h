@@ -7,30 +7,19 @@ namespace SORT {
 
     template<typename RandomIt, class Comparator>
     inline void selectionSort(RandomIt begin, RandomIt end, Comparator compere) {
-        RandomIt max = begin;
-        RandomIt item, nextIt;
-        nextIt = max;
-        nextIt++;
-        while (nextIt != end) {
-            max++;
-            nextIt = max;
-            nextIt++;
-        }
-        while (begin != max) {
-            item = begin;
-            nextIt = begin;
-            nextIt++;
-            while (nextIt != max) {
-                if (!compere(*item, *max)) {
-                    std::swap(*item, *max);
+        RandomIt min;
+        while (begin!=end){
+            min = begin;
+            RandomIt it = begin;
+            it++;
+            for( ;it!=end;it++){
+                if(!compere(*min,*it)){
+                    min = it;
                 }
-                item++;
-                nextIt = item;
-                nextIt++;
             }
-            max = item;
+            if(min != begin)std::swap(*min,*begin);
+            begin++;
         }
-
     }
 
     template<class Container, class Comparator>

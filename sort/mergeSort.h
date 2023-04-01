@@ -40,6 +40,44 @@ namespace SORT {
         }
     }
 
+    template<typename Container, typename Comparator>
+    inline void merge(Container & container, int begin, int split, int end, Comparator compere){
+        std::list<typename std::remove_pointer<int*>::type> L, R;
+
+        for (int it = begin; it != split; it++) {
+            L.push_back(std::move(container[it]));
+        }
+        for (int it = split; it != end; it++) {
+            R.push_back(std::move(container[it]));
+        }
+
+        decltype(L.begin()) lIt = L.begin();
+        decltype(L.begin()) rIt = R.begin();
+        int it = begin;
+
+        while (lIt != L.end() && rIt != R.end()) {
+            if (compere(*lIt, *rIt)) {
+                container[it] = std::move(*lIt);
+                it++;
+                lIt++;
+            } else {
+                container[it] = std::move(*rIt);
+                it++;
+                rIt++;
+            }
+        }
+        while (lIt != L.end()) {
+            container[it] = std::move(*lIt);
+            it++;
+            lIt++;
+        }
+        while (rIt != R.end()) {
+            container[it] = std::move(*rIt);
+            it++;
+            rIt++;
+        }
+    }
+
     template<typename RandomIt, typename Comparator>
     inline void mergeSort(RandomIt begin, RandomIt end, Comparator compere) {
         int mergeDistance = 16;
@@ -97,7 +135,7 @@ namespace SORT {
             if (right > size) {
                 right = size;
             }
-            insertionSort(container + left, container + right, compere);
+            insertionSort(container, left, right, compere);
             left = right;
         }
         do {
@@ -113,7 +151,7 @@ namespace SORT {
                 if (right >= size) {
                     right = size;
                 }
-                merge(container + left, container + left + mergeDistance, container + right, compere);
+                merge(container, left, left + mergeDistance, right, compere);
                 left = right;
             } while (right != size);
             mergeDistance *= 2;
