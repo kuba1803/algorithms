@@ -4,7 +4,7 @@
 #include "insertionSort.h"
 namespace SORT {
     template<typename RandomIt, typename Comparator>
-    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator compere) {
+    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator &compere) {
         std::list<typename std::iterator_traits<RandomIt>::value_type> L, R;
 
         for (RandomIt it = begin; it != split; it++) {
@@ -41,7 +41,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void merge(Container & container, int begin, int split, int end, Comparator compere){
+    inline void merge(Container & container, int begin, int split, int end, Comparator &compere){
         std::list<typename std::remove_pointer<int*>::type> L, R;
 
         for (int it = begin; it != split; it++) {
@@ -79,7 +79,7 @@ namespace SORT {
     }
 
     template<typename RandomIt, typename Comparator>
-    inline void mergeSort(RandomIt begin, RandomIt end, Comparator compere) {
+    inline void mergeSort(RandomIt begin, RandomIt end, Comparator &compere) {
         int mergeDistance = 16;
         int overallDistance = 0;
         int distance = 0;
@@ -124,7 +124,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void mergeSort(Container &container, int start, int size, Comparator compere) {
+    inline void mergeSort(Container &container, int start, int size, Comparator &compere) {
         int mergeDistance = 16;
         int overallDistance = size - start;
         int left, right;

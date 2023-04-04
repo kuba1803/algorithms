@@ -17,7 +17,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator >
-    inline void heapify(Container &container, int start, int end, int i, Comparator compere) {
+    inline void heapify(Container &container, int start, int end, int i, Comparator &compere) {
         int l;
         int r;
         int top;

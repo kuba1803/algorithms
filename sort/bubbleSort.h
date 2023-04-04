@@ -6,7 +6,7 @@
 namespace SORT {
 
     template<typename RandomIt, typename Comparator>
-    inline void bubbleSort(RandomIt begin, RandomIt end, Comparator compere) {
+    inline void bubbleSort(RandomIt begin, RandomIt end, Comparator &compere) {
         bool change = true;
         RandomIt temp, inner_temp;
         while (change && begin != end ) {
@@ -26,7 +26,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void bubbleSort(Container &container, int start, int size, Comparator compere) {
+    inline void bubbleSort(Container &container, int start, int size, Comparator &compere) {
         int temp;
         bool change = true;
         while (change && start < size--) {

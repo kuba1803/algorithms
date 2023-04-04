@@ -7,7 +7,7 @@
 namespace SORT {
 
     template<typename Container, typename Comparator>
-    inline void shellSort(Container &container, int start, int size, Comparator compere) {
+    inline void shellSort(Container &container, int start, int size, Comparator &compere) {
         int gap, gapNumber = 1;
         do {
             gap = std::ceil(1.8 * std::pow(2.25, gapNumber - 1) - 0.8);

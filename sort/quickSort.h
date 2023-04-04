@@ -8,7 +8,7 @@
 namespace SORT {
 
     template<typename RandomIt, typename Comparator>
-    inline void quickSort(RandomIt begin, RandomIt end, Comparator compere) {
+    inline void quickSort(RandomIt begin, RandomIt end, Comparator &compere) {
         std::stack<std::tuple<RandomIt, RandomIt>> stack;
         std::tuple<RandomIt, RandomIt> range;
         RandomIt i, tempEnd, temp;
@@ -42,7 +42,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void quickSort(Container &container, int start, int size, Comparator compere) {
+    inline void quickSort(Container &container, int start, int size, Comparator &compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int i;

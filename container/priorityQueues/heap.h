@@ -13,9 +13,9 @@ namespace CONTAINER {
     class Heap {
     protected:
         Container container;
-        Comparator compere;
+        Comparator &compere;
 
-        inline void buildHeap(int start, int end, Comparator compere) {
+        inline void buildHeap(int start, int end, Comparator &compere) {
             for (int i = (end - start ) / 2; i >= 1; i--) {
                 heapifyDown(i + start);
             }
@@ -96,7 +96,7 @@ namespace CONTAINER {
             buildHeap(0,container.size());
         }
 
-        explicit Heap(Comparator comparator, int size) :compere(comparator),container(size) {
+        explicit Heap(Comparator& comparator, int size) :compere(comparator),container(size) {
         }
 
         Heap(const Heap &heap) : compere(heap.compere),container(heap.container) {

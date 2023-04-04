@@ -6,7 +6,7 @@
 namespace SORT {
 
     template<typename RandomIt, class Comparator>
-    inline void selectionSort(RandomIt begin, RandomIt end, Comparator compere) {
+    inline void selectionSort(RandomIt begin, RandomIt end, Comparator &compere) {
         RandomIt min;
         while (begin!=end){
             min = begin;
@@ -23,7 +23,7 @@ namespace SORT {
     }
 
     template<class Container, class Comparator>
-    inline void selectionSort(Container &container, int start, int size, Comparator compere) {
+    inline void selectionSort(Container &container, int start, int size, Comparator &compere) {
         int maxIn = size - 1;
         while (maxIn != start) {
             for (int in = start; in != maxIn; in++) {

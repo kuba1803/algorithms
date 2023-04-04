@@ -18,6 +18,7 @@ namespace CONTAINER {
     public:
 
 #pragma region types
+
         typedef T					                          value_type;
         typedef T*	     		                              pointer;
         typedef const T*                                      const_pointer;
