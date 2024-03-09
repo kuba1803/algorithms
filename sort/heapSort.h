@@ -4,20 +4,20 @@
 #include <algorithm>
 
 namespace SORT {
-    inline int parent(int i) {
+    constexpr int parent(int i) {
         return i >> 1;
     }
 
-    inline int left(int i) {
+    constexpr  int left(int i) {
         return i << 1;
     }
 
-    inline int right(int i) {
+    constexpr int right(int i) {
         return (i << 1) + 1;
     }
 
     template<typename Container, typename Comparator >
-    inline void heapify(Container &container, int start, int end, int i, Comparator &compere) {
+    constexpr void heapify(Container &container, int start, int end, int i, Comparator &compere) {
         int l;
         int r;
         int top;
@@ -42,18 +42,18 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator >
-    inline void buildHeap(Container &container, int start, int end, Comparator compere) {
-        for (int i = (end - start ) / 2; i >= 1; i--) {
+    constexpr void buildHeap(Container &container, int start, int end, Comparator compere) {
+        for (int i = (end - start ) / 2; i >= 1; --i) {
             heapify(container, start, end, i + start, compere);
         }
     }
 
     template<typename Container, typename Comparator>
-    inline void heapSort(Container &container, int start, int size, Comparator compere) {
+    constexpr void heapSort(Container &container, int start, int size, Comparator compere) {
         buildHeap(container, start, size, compere);
-        for (int i = size ; i >= 2 + start; i--) {
+        for (int i = size ; i >= 2 + start; --i) {
             std::swap(container[start], container[i-1]);
-            size--;
+            --size;
             heapify(container, start, size, start + 1, compere);
         }
     }

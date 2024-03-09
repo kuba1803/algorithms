@@ -13,7 +13,7 @@
 namespace SORT {
 
     template<typename Container, typename Comparator>
-    inline void stoogeSort(Container &container, int start, int size, Comparator &compere) {
+    constexpr void stoogeSort(Container &container, int start, int size, Comparator compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int k;

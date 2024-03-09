@@ -88,7 +88,6 @@ TEST(Sort, countSort) {
         std::vector<int> table( {1, 10, 9, 8, 2, 5, 7, 3, 4, 6, 13, 12, 11});
         std::vector<int>  sorted( {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13});
         SORT::shellSort(table,0,table.size(),[](int a,int b){return a < b;});
-
         EXPECT_EQ(table, sorted);
     }
 

@@ -8,7 +8,7 @@
 namespace SORT {
 
     template<typename RandomIt, typename Comparator>
-    inline void quickSort(RandomIt begin, RandomIt end, Comparator &compere) {
+    constexpr void quickSort(RandomIt begin, RandomIt end, Comparator compere) {
         std::stack<std::tuple<RandomIt, RandomIt>> stack;
         std::tuple<RandomIt, RandomIt> range;
         RandomIt i, tempEnd, temp;
@@ -19,20 +19,20 @@ namespace SORT {
             i = std::get<0>(range);
             while (i != std::get<1>(range)) {
                 tempEnd = i;
-                i++;
+                ++i;
             }
             i = std::get<0>(range);
             for (RandomIt j = std::get<0>(range); j != tempEnd; j++) {
                 if (compere(*j, *tempEnd)) {
                     std::swap(*i, *j);
-                    i++;
+                    ++i;
                 }
             }
             std::swap(*i, *tempEnd);
             tempEnd = temp = std::get<0>(range);
             while (temp != i) {
                 tempEnd = temp;
-                temp++;
+                ++temp;
             }
             if (std::get<0>(range) != tempEnd)stack.push(std::tuple<RandomIt, RandomIt>(std::get<0>(range), i ));
             i++;
@@ -42,7 +42,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void quickSort(Container &container, int start, int size, Comparator &compere) {
+    constexpr void quickSort(Container &container, int start, int size, Comparator compere) {
         std::stack<std::tuple<int, int>> stack;
         std::tuple<int, int> range;
         int i;
@@ -51,7 +51,7 @@ namespace SORT {
             range = std::move(stack.top());
             stack.pop();
             i = std::get<0>(range);
-            for (int j = std::get<0>(range); j < std::get<1>(range) - 1; j++) {
+            for (int j = std::get<0>(range); j < std::get<1>(range) - 1; ++j) {
                 if (compere(container[j], container[std::get<1>(range) - 1])) {
                     std::swap(container[i], container[j]);
                     i++;

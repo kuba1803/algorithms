@@ -6,32 +6,32 @@
 
 namespace  SORT{
     template<typename RandomIt, typename Comparator>
-    inline void insertionSort(RandomIt begin, RandomIt end, Comparator &compere) {
+    constexpr void insertionSort(RandomIt begin, RandomIt end, Comparator compere) {
         RandomIt item = begin;
         RandomIt help;
         item++;
         while (item != end) {
             help = begin;
             while (help != item && compere(*help, *item)) {
-                help++;
+                ++help;
             }
             while (help != item) {
                 std::swap(*help, *item);
-                help++;
+                ++help;
             }
             item++;
         }
     }
 
     template<typename Container, typename Comparator>
-    inline void insertionSort(Container &container, int start, int size, Comparator &compere) {
+    constexpr void insertionSort(Container &container, int start, int size, Comparator compere) {
         int j, tmp;
-        for (int i = start + 1; i < size; i++) {
+        for (int i = start + 1; i < size; ++i) {
             j = SEARCH::binarySearch(container, start, i, container[i], compere);
             tmp = i;
             while (tmp > j) {
                 std::swap(container[tmp], container[tmp - 1]);
-                tmp--;
+                --tmp;
             }
         }
     }

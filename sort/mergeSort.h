@@ -4,13 +4,13 @@
 #include "insertionSort.h"
 namespace SORT {
     template<typename RandomIt, typename Comparator>
-    inline void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator &compere) {
+    constexpr void merge(RandomIt begin, RandomIt split, RandomIt end, Comparator &compere) {
         std::list<typename std::iterator_traits<RandomIt>::value_type> L, R;
 
-        for (RandomIt it = begin; it != split; it++) {
+        for (RandomIt it = begin; it != split; ++it) {
             L.push_back(std::move(*it));
         }
-        for (RandomIt it = split; it != end; it++) {
+        for (RandomIt it = split; it != end; ++it) {
             R.push_back(std::move(*it));
         }
         decltype(L.begin()) lIt = L.begin();
@@ -20,34 +20,34 @@ namespace SORT {
         while (lIt != L.end() && rIt != R.end()) {
             if (compere(*lIt, *rIt)) {
                 *it = std::move(*lIt);
-                it++;
-                lIt++;
+                ++it;
+                ++lIt;
             } else {
                 *it = std::move(*rIt);
-                it++;
-                rIt++;
+                ++it;
+                ++rIt;
             }
         }
         while (lIt != L.end()) {
             *it = std::move(*lIt);
-            it++;
-            lIt++;
+            ++it;
+            ++lIt;
         }
         while (rIt != R.end()) {
             *it = std::move(*rIt);
-            it++;
-            rIt++;
+            ++it;
+            ++rIt;
         }
     }
 
     template<typename Container, typename Comparator>
-    inline void merge(Container & container, int begin, int split, int end, Comparator &compere){
+    constexpr void merge(Container & container, int begin, int split, int end, Comparator &compere){
         std::list<typename std::remove_pointer<int*>::type> L, R;
 
-        for (int it = begin; it != split; it++) {
+        for (int it = begin; it != split; ++it) {
             L.push_back(std::move(container[it]));
         }
-        for (int it = split; it != end; it++) {
+        for (int it = split; it != end; ++it) {
             R.push_back(std::move(container[it]));
         }
 
@@ -58,28 +58,28 @@ namespace SORT {
         while (lIt != L.end() && rIt != R.end()) {
             if (compere(*lIt, *rIt)) {
                 container[it] = std::move(*lIt);
-                it++;
-                lIt++;
+               ++it;
+                ++lIt;
             } else {
                 container[it] = std::move(*rIt);
-                it++;
-                rIt++;
+               ++it;
+                ++rIt;
             }
         }
         while (lIt != L.end()) {
             container[it] = std::move(*lIt);
-            it++;
-            lIt++;
+           ++it;
+            ++lIt;
         }
         while (rIt != R.end()) {
             container[it] = std::move(*rIt);
-            it++;
-            rIt++;
+           ++it;
+            ++rIt;
         }
     }
 
     template<typename RandomIt, typename Comparator>
-    inline void mergeSort(RandomIt begin, RandomIt end, Comparator &compere) {
+    constexpr void mergeSort(RandomIt begin, RandomIt end, Comparator compere) {
         int mergeDistance = 16;
         int overallDistance = 0;
         int distance = 0;
@@ -89,9 +89,9 @@ namespace SORT {
         leftIt = begin;
         while (rightIt != end) {
             while (distance < mergeDistance && rightIt != end) {
-                distance++;
-                overallDistance++;
-                rightIt++;
+                ++distance;
+                ++overallDistance;
+                ++rightIt;
             }
             insertionSort(leftIt, rightIt, compere);
             distance = 0;
@@ -105,16 +105,16 @@ namespace SORT {
             leftIt = begin;
             do {
                 while (distance < spiltDistance && rightIt != end) {
-                    distance++;
-                    rightIt++;
+                    ++distance;
+                    ++rightIt;
                 }
                 if (rightIt == end) {
                     continue;
                 }
                 it = rightIt;
                 while (distance < mergeDistance && rightIt != end) {
-                    distance++;
-                    rightIt++;
+                    ++distance;
+                    ++rightIt;
                 }
                 merge(leftIt, it, rightIt, compere);
                 leftIt = rightIt;
@@ -124,7 +124,7 @@ namespace SORT {
     }
 
     template<typename Container, typename Comparator>
-    inline void mergeSort(Container &container, int start, int size, Comparator &compere) {
+    constexpr void mergeSort(Container &container, int start, int size, Comparator compere) {
         int mergeDistance = 16;
         int overallDistance = size - start;
         int left, right;
